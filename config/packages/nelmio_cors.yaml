@@ -1,0 +1,8 @@
+nelmio_cors:
+    defaults:
+        allow_credentials: true
+        allow_origin: ['*']  # Set specific origin for security
+        allow_headers: ['Content-Type', 'Authorization']
+        allow_methods: ['GET', 'POST', 'OPTIONS']
+    paths:
+        '^/': ~

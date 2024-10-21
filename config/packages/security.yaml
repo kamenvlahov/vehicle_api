@@ -1,0 +1,37 @@
+security:
+    # Hashing strategy for passwords (not relevant for JWT, but you need it for user registration)
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+    # Define the providers for authentication (using your User entity)
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+
+    firewalls:
+        # Default firewall for the app
+        dev:
+            pattern: ^/(css|images|js|bundles)
+            security: false
+
+        # API Firewall for stateless JWT authentication
+        api:
+            pattern: ^/api
+            stateless: true  # Stateless as we're not using sessions
+            jwt: ~  # Use LexikJWTAuthenticationBundle to handle JWT
+
+        # Allow access to login route for anonymous users
+        main:
+            pattern: ^/(login|register)$  # Allow access to login and register routes
+            security: false  # No authentication needed for these routes
+            logout:
+                path: /logout
+                invalidate_session: true
+
+    # Control access to routes
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: ROLE_USER }

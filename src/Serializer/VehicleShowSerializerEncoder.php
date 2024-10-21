@@ -4,7 +4,7 @@ namespace App\Serializer;
 
 use Symfony\Component\Serializer\SerializerInterface;
 
-class VehicleSerializerEncoder implements SerializerInterface
+class VehicleShowSerializerEncoder implements SerializerInterface
 {
     private SerializerInterface $serializer;
 
@@ -16,7 +16,7 @@ class VehicleSerializerEncoder implements SerializerInterface
     public function serialize(mixed $data, string $format, array $context = []): string
     {
         return $this->serializer->serialize($data, 'json', [
-            'groups' => ['vehicles:read']
+            'groups' => ['vehicles:show']
         ]);
     }
 
